@@ -17,10 +17,14 @@ public class CloneTest {
 
 		//实现Cloneable接口
 		Cat cat = new Cat();
+		// 浅拷贝，要实现深拷贝需要自己重写来实现
 		Cat cat2 = cat.clone();
 		Assert.assertEquals(cat, cat2);
 	}
 
+	/**
+	 * {@code cn.hutool.core.clone.CloneTest.Dog}该类继承了CloneSupport，而CloneSupport仅仅是封装了Object.clone()方法的调用而已，通常不建议使用继承
+	 */
 	@Test
 	public void cloneTest2(){
 		//继承CloneSupport类
