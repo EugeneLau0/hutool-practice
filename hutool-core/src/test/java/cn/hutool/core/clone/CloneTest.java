@@ -12,6 +12,12 @@ import org.junit.Test;
  */
 public class CloneTest {
 
+	/**
+	 * <p>
+	 *     <pre>调用{@link Object#clone()}来实现浅拷贝</pre>
+	 *     <pre>如果需要深拷贝，则建议自己来重现clone方法</pre>
+	 * </p>
+	 */
 	@Test
 	public void cloneTest(){
 
@@ -23,7 +29,10 @@ public class CloneTest {
 	}
 
 	/**
-	 * {@code cn.hutool.core.clone.CloneTest.Dog}该类继承了CloneSupport，而CloneSupport仅仅是封装了Object.clone()方法的调用而已，通常不建议使用继承
+	 * <p>
+	 *     {@link cn.hutool.core.clone.CloneTest.Dog}该类继承了{@link CloneSupport}，
+	 *     而{@link CloneSupport}仅仅是封装了{@link Object#clone()}方法的调用而已，通常不建议使用继承
+	 * </p>
 	 */
 	@Test
 	public void cloneTest2(){
