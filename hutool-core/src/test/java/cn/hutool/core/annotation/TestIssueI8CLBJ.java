@@ -24,6 +24,7 @@ public class TestIssueI8CLBJ {
 		Annotation[] annotations = field.getDeclaredAnnotations();
 		Assert.assertTrue(annotations.length > 0);
 
+		// 获取注解
 		TestAnnotation annotation = AnnotationUtil.getSynthesizedAnnotation(TestAnnotation.class, annotations);
 		List<Thread> threadList = new ArrayList<>();
 		for (int i = 0; i < 30; i++) {
@@ -31,6 +32,7 @@ public class TestIssueI8CLBJ {
 				try {
 					String valueFieldName = annotation.valueFieldName();
 					//Console.log("valueFieldName:" + valueFieldName);
+					System.out.println("valueFieldName:" + valueFieldName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
