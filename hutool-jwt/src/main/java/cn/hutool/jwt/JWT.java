@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.CharPool;
 import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
@@ -88,16 +89,15 @@ public class JWT implements RegisteredPayload<JWT> {
 	/**
 	 * 解析JWT内容
 	 *
+	 * @implNote 有了{@link cn.hutool.jwt.JWT#of()}函数，parse没有必要再是public的，避免歧义
 	 * @param token JWT Token字符串，格式为xxxx.yyyy.zzzz
-	 * @return this
 	 */
-	public JWT parse(String token) {
+	private void parse(String token) {
 		Assert.notBlank(token, "Token String must be not blank!");
 		final List<String> tokens = splitToken(token);
 		this.tokens = tokens;
 		this.header.parse(tokens.get(0), this.charset);
 		this.payload.parse(tokens.get(1), this.charset);
-		return this;
 	}
 
 	/**
@@ -424,7 +424,8 @@ public class JWT implements RegisteredPayload<JWT> {
 	 * @return 三部分内容
 	 */
 	private static List<String> splitToken(String token) {
-		final List<String> tokens = StrUtil.split(token, CharUtil.DOT);
+		// 将入参的token根据点进行字符串切割，这里是运用了JWT token用dot来进行拼接的原理
+		final List<String> tokens = StrUtil.split(token, CharPool.DOT);
 		if (3 != tokens.size()) {
 			throw new JWTException("The token was expected 3 parts, but got {}.", tokens.size());
 		}
