@@ -285,7 +285,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		if (null == arrayObj) {
 			throw new NullPointerException("Argument [arrayObj] is null !");
 		}
-		if (false == arrayObj.getClass().isArray()) {
+		if (!arrayObj.getClass().isArray()) {
 			throw new IllegalArgumentException("Argument [arrayObj] is not array !");
 		}
 		if (null == type) {
@@ -928,7 +928,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> boolean containsAll(T[] array, T... values) {
 		for (T value : values) {
-			if (false == contains(array, value)) {
+			if (!contains(array, value)) {
 				return false;
 			}
 		}
@@ -1268,7 +1268,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		if (null == array) {
 			return null;
 		}
-		if (false == isArray(array)) {
+		if (!isArray(array)) {
 			throw new IllegalArgumentException(StrUtil.format("[{}] is not a Array!", array.getClass()));
 		}
 
@@ -1603,7 +1603,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 */
 	public static boolean isAllEmpty(Object... args) {
 		for (Object obj : args) {
-			if (false == ObjectUtil.isEmpty(obj)) {
+			if (!ObjectUtil.isEmpty(obj)) {
 				return false;
 			}
 		}
@@ -1618,7 +1618,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @since 4.5.18
 	 */
 	public static boolean isAllNotEmpty(Object... args) {
-		return false == hasEmpty(args);
+		return !hasEmpty(args);
 	}
 
 	/**
@@ -1631,7 +1631,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> boolean isAllNotNull(T... array) {
-		return false == hasNull(array);
+		return !hasNull(array);
 	}
 
 	/**
@@ -1836,7 +1836,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		}
 
 		for (int i = 0; i < subArray.length; i++) {
-			if (false == ObjectUtil.equal(array[i + firstIndex], subArray[i])) {
+			if (!ObjectUtil.equal(array[i + firstIndex], subArray[i])) {
 				return indexOfSub(array, firstIndex + 1, subArray);
 			}
 		}
@@ -1881,7 +1881,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		}
 
 		for (int i = 0; i < subArray.length; i++) {
-			if (false == ObjectUtil.equal(array[i + firstIndex], subArray[i])) {
+			if (!ObjectUtil.equal(array[i + firstIndex], subArray[i])) {
 				return lastIndexOfSub(array, firstIndex - 1, subArray);
 			}
 		}
