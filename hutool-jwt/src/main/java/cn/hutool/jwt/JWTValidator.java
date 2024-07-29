@@ -137,6 +137,11 @@ public class JWTValidator {
 	/**
 	 * 验证算法
 	 *
+	 * <p>
+	 *     <pre>1、通过算法验证签名是否正确</pre>
+	 *     <pre>2、如果算法ID为空且签名为空，则认为检验通过</pre>
+	 * </p>
+	 *
 	 * @param jwt    {@link JWT}对象
 	 * @param signer 用于验证的签名器
 	 * @throws ValidateException 验证异常
@@ -160,13 +165,13 @@ public class JWTValidator {
 		}
 
 		final String algorithmIdInSigner = signer.getAlgorithmId();
-		if (false == StrUtil.equals(algorithmId, algorithmIdInSigner)) {
+		if (!StrUtil.equals(algorithmId, algorithmIdInSigner)) {
 			throw new ValidateException("Algorithm [{}] defined in header doesn't match to [{}]!"
 					, algorithmId, algorithmIdInSigner);
 		}
 
 		// 通过算法验证签名是否正确
-		if (false == jwt.verify(signer)) {
+		if (!jwt.verify(signer)) {
 			throw new ValidateException("Signature verification failed!");
 		}
 	}
@@ -218,7 +223,8 @@ public class JWTValidator {
 	 * @param leeway      容忍空间，单位：秒。向后容忍
 	 * @throws ValidateException 验证异常
 	 */
-	private static void validateNotAfter(String fieldName, Date dateToCheck, Date now, long leeway) throws ValidateException {
+	private static void validateNotAfter(String fieldName, Date dateToCheck,
+										 Date now, long leeway) throws ValidateException {
 		if (null == dateToCheck) {
 			return;
 		}
@@ -242,7 +248,8 @@ public class JWTValidator {
 	 * @throws ValidateException 验证异常
 	 */
 	@SuppressWarnings("SameParameterValue")
-	private static void validateNotBefore(String fieldName, Date dateToCheck, Date now, long leeway) throws ValidateException {
+	private static void validateNotBefore(String fieldName, Date dateToCheck,
+										  Date now, long leeway) throws ValidateException {
 		if (null == dateToCheck) {
 			return;
 		}
