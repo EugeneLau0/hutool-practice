@@ -200,6 +200,18 @@ public class ArrayUtilTest {
 	}
 
 	@Test
+	public void castTest2() {
+		Object[] values = {"1", "2", "3"};
+		// 底层使用的是java.lang.System.arraycopy()，实际是强转，如果类型不匹配会抛出ArrayStoreException异常
+		try {
+			String[] cast = (String[]) ArrayUtil.cast(Integer.class, values);
+			Assert.assertFalse(cast.length > 0);
+		} catch (ArrayStoreException ex) {
+			Assert.assertTrue(true);
+		}
+	}
+
+	@Test
 	public void rangeTest() {
 		int[] range = ArrayUtil.range(0, 10);
 		Assert.assertEquals(0, range[0]);
