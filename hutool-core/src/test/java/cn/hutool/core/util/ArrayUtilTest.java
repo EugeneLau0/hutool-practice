@@ -174,6 +174,23 @@ public class ArrayUtilTest {
 	}
 
 	@Test
+	public void mapTest2() {
+		String[] keys = {"a", "b", "c", "d"};
+		Integer[] values = {1, 2, 3};
+		Map<String, Integer> map = ArrayUtil.zip(keys, values, true);
+		Assert.assertEquals(Objects.requireNonNull(map).toString(), "{a=1, b=2, c=3}");
+	}
+
+	@Test
+	public void mapTest3() {
+		String[] keys = {"a", "b", "c"};
+		Integer[] values = {1, 2, 3};
+		// 无序
+		Map<String, Integer> map = ArrayUtil.zip(keys, values);
+		Assert.assertEquals(Objects.requireNonNull(map).toString(), "{a=1, b=2, c=3}");
+	}
+
+	@Test
 	public void castTest() {
 		Object[] values = {"1", "2", "3"};
 		String[] cast = (String[]) ArrayUtil.cast(String.class, values);

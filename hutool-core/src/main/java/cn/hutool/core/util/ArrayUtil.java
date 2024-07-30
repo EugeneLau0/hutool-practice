@@ -768,8 +768,8 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param <V>     Value类型
 	 * @param keys    键列表
 	 * @param values  值列表
-	 * @param isOrder 是否有序
-	 * @return Map
+	 * @param isOrder 是否有序，该参数决定是用HashMap还是LinkedHashMap
+	 * @return Map，返回值可能会为{@code null}
 	 * @since 3.0.4
 	 */
 	public static <K, V> Map<K, V> zip(K[] keys, V[] values, boolean isOrder) {
