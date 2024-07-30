@@ -74,6 +74,7 @@ public class ArrayUtilTest {
 		int[] a = {1, 2, 3};
 		int[] clone = ArrayUtil.clone(a);
 		Assert.assertArrayEquals(a, clone);
+		Assert.assertNotEquals(a, clone);
 	}
 
 	@Test
@@ -83,6 +84,20 @@ public class ArrayUtilTest {
 		Assert.assertArrayEquals(filter, new Integer[]{2, 4, 6});
 	}
 
+	/**
+	 * 测试ArrayUtil的edit方法
+	 */
+	@Test
+	public void filterEditTest2() {
+		Integer[] a = {1, 2, 3, 4, 5, 6};
+		Integer[] filter = ArrayUtil.edit(a, t -> (t % 2 == 0) ? t - 1 : t);
+		// 值比较
+		Assert.assertArrayEquals(filter, new Integer[]{1, 1, 3, 3, 5, 5});
+	}
+
+	/**
+	 * 数组过滤器
+	 */
 	@Test
 	public void filterTestForFilter() {
 		Integer[] a = {1, 2, 3, 4, 5, 6};
@@ -453,6 +468,7 @@ public class ArrayUtilTest {
 	public void nullToEmptyTest() {
 		String[] a = {"a", "b", "", null, " ", "c"};
 		String[] resultA = {"a", "b", "", "", " ", "c"};
+		// 移除null或者空串
 		Assert.assertArrayEquals(ArrayUtil.nullToEmpty(a), resultA);
 	}
 
