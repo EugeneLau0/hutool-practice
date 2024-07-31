@@ -5,10 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * {@link ArrayUtil} 数组工具单元测试
@@ -74,6 +71,7 @@ public class ArrayUtilTest {
 		int[] a = {1, 2, 3};
 		int[] clone = ArrayUtil.clone(a);
 		Assert.assertArrayEquals(a, clone);
+		Assert.assertNotEquals(a, clone);
 	}
 
 	@Test
@@ -83,6 +81,20 @@ public class ArrayUtilTest {
 		Assert.assertArrayEquals(filter, new Integer[]{2, 4, 6});
 	}
 
+	/**
+	 * 测试ArrayUtil的edit方法
+	 */
+	@Test
+	public void filterEditTest2() {
+		Integer[] a = {1, 2, 3, 4, 5, 6};
+		Integer[] filter = ArrayUtil.edit(a, t -> (t % 2 == 0) ? t - 1 : t);
+		// 值比较
+		Assert.assertArrayEquals(filter, new Integer[]{1, 1, 3, 3, 5, 5});
+	}
+
+	/**
+	 * 数组过滤器
+	 */
 	@Test
 	public void filterTestForFilter() {
 		Integer[] a = {1, 2, 3, 4, 5, 6};
@@ -159,12 +171,41 @@ public class ArrayUtilTest {
 	}
 
 	@Test
+	public void mapTest2() {
+		String[] keys = {"a", "b", "c", "d"};
+		Integer[] values = {1, 2, 3};
+		Map<String, Integer> map = ArrayUtil.zip(keys, values, true);
+		Assert.assertEquals(Objects.requireNonNull(map).toString(), "{a=1, b=2, c=3}");
+	}
+
+	@Test
+	public void mapTest3() {
+		String[] keys = {"a", "b", "c"};
+		Integer[] values = {1, 2, 3};
+		// 无序
+		Map<String, Integer> map = ArrayUtil.zip(keys, values);
+		Assert.assertEquals(Objects.requireNonNull(map).toString(), "{a=1, b=2, c=3}");
+	}
+
+	@Test
 	public void castTest() {
 		Object[] values = {"1", "2", "3"};
 		String[] cast = (String[]) ArrayUtil.cast(String.class, values);
 		Assert.assertEquals(values[0], cast[0]);
 		Assert.assertEquals(values[1], cast[1]);
 		Assert.assertEquals(values[2], cast[2]);
+	}
+
+	@Test
+	public void castTest2() {
+		Object[] values = {"1", "2", "3"};
+		// 底层使用的是java.lang.System.arraycopy()，实际是强转，如果类型不匹配会抛出ArrayStoreException异常
+		try {
+			String[] cast = (String[]) ArrayUtil.cast(Integer.class, values);
+			Assert.assertFalse(cast.length > 0);
+		} catch (ArrayStoreException ex) {
+			Assert.assertTrue(true);
+		}
 	}
 
 	@Test
@@ -182,6 +223,9 @@ public class ArrayUtilTest {
 		Assert.assertEquals(9, range[9]);
 	}
 
+	/**
+	 * 负数越界
+	 */
 	@Test(expected = NegativeArraySizeException.class)
 	public void rangeMinTest() {
 		//noinspection ResultOfMethodCallIgnored
@@ -204,6 +248,7 @@ public class ArrayUtilTest {
 		BigDecimal three = new BigDecimal("3");
 		BigDecimal[] bigDecimals = {two, one, three};
 
+		// 比较取最小值
 		BigDecimal minAccuracy = ArrayUtil.min(bigDecimals, Comparator.comparingInt(BigDecimal::scale));
 		Assert.assertEquals(minAccuracy, three);
 
@@ -278,11 +323,23 @@ public class ArrayUtilTest {
 		Assert.assertSame(String[].class, arrayType);
 	}
 
+	/**
+	 * 数组去重，即使是数组，也不保障有序性
+	 */
 	@Test
 	public void distinctTest() {
 		String[] array = {"aa", "bb", "cc", "dd", "bb", "dd"};
 		String[] distinct = ArrayUtil.distinct(array);
 		Assert.assertArrayEquals(new String[]{"aa", "bb", "cc", "dd"}, distinct);
+	}
+
+	@Test
+	public void distinctTest2() {
+		String[] array1 = {"bb", "aa", "cc", "dd", "bb", "dd"};
+		Set<String> set = new HashSet<>(array1.length, 1);
+		Collections.addAll(set, array1);
+		String[] array2 = ArrayUtil.toArray(set, String.class);
+		Assert.assertArrayEquals(new String[]{"bb", "aa", "cc", "dd"}, array2);
 	}
 
 	@Test
@@ -453,6 +510,7 @@ public class ArrayUtilTest {
 	public void nullToEmptyTest() {
 		String[] a = {"a", "b", "", null, " ", "c"};
 		String[] resultA = {"a", "b", "", "", " ", "c"};
+		// 移除null或者空串
 		Assert.assertArrayEquals(ArrayUtil.nullToEmpty(a), resultA);
 	}
 

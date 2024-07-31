@@ -199,12 +199,15 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> int matchIndex(Matcher<T> matcher, int beginIndexInclude, T... array) {
+		// 当判空需要抛出异常时，可以使用Assert.notNull来处理更加优雅；同时也能一定程度上提升单元测试覆盖率
 		Assert.notNull(matcher, "Matcher must be not null !");
-		if (isNotEmpty(array)) {
-			for (int i = beginIndexInclude; i < array.length; i++) {
-				if (matcher.match(array[i])) {
-					return i;
-				}
+		if (isEmpty(array)) {
+			return INDEX_NOT_FOUND;
+		}
+
+		for (int i = beginIndexInclude; i < array.length; i++) {
+			if (matcher.match(array[i])) {
+				return i;
 			}
 		}
 
@@ -673,6 +676,7 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 		T modified;
 		for (T t : array) {
 			modified = editor.edit(t);
+			// 如果为null，则不返回
 			if (null != modified) {
 				list.add(modified);
 			}
@@ -764,8 +768,8 @@ public class ArrayUtil extends PrimitiveArrayUtil {
 	 * @param <V>     Value类型
 	 * @param keys    键列表
 	 * @param values  值列表
-	 * @param isOrder 是否有序
-	 * @return Map
+	 * @param isOrder 是否有序，该参数决定是用HashMap还是LinkedHashMap
+	 * @return Map，返回值可能会为{@code null}
 	 * @since 3.0.4
 	 */
 	public static <K, V> Map<K, V> zip(K[] keys, V[] values, boolean isOrder) {
