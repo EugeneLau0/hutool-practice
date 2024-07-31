@@ -5,10 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * {@link ArrayUtil} 数组工具单元测试
@@ -226,6 +223,9 @@ public class ArrayUtilTest {
 		Assert.assertEquals(9, range[9]);
 	}
 
+	/**
+	 * 负数越界
+	 */
 	@Test(expected = NegativeArraySizeException.class)
 	public void rangeMinTest() {
 		//noinspection ResultOfMethodCallIgnored
@@ -248,6 +248,7 @@ public class ArrayUtilTest {
 		BigDecimal three = new BigDecimal("3");
 		BigDecimal[] bigDecimals = {two, one, three};
 
+		// 比较取最小值
 		BigDecimal minAccuracy = ArrayUtil.min(bigDecimals, Comparator.comparingInt(BigDecimal::scale));
 		Assert.assertEquals(minAccuracy, three);
 
@@ -322,11 +323,23 @@ public class ArrayUtilTest {
 		Assert.assertSame(String[].class, arrayType);
 	}
 
+	/**
+	 * 数组去重，即使是数组，也不保障有序性
+	 */
 	@Test
 	public void distinctTest() {
 		String[] array = {"aa", "bb", "cc", "dd", "bb", "dd"};
 		String[] distinct = ArrayUtil.distinct(array);
 		Assert.assertArrayEquals(new String[]{"aa", "bb", "cc", "dd"}, distinct);
+	}
+
+	@Test
+	public void distinctTest2() {
+		String[] array1 = {"bb", "aa", "cc", "dd", "bb", "dd"};
+		Set<String> set = new HashSet<>(array1.length, 1);
+		Collections.addAll(set, array1);
+		String[] array2 = ArrayUtil.toArray(set, String.class);
+		Assert.assertArrayEquals(new String[]{"bb", "aa", "cc", "dd"}, array2);
 	}
 
 	@Test
