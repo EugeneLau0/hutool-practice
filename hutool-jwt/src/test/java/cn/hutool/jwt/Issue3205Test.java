@@ -18,9 +18,10 @@ public class Issue3205Test {
 	@Test
 	public void es256Test() {
 		final String id = "es256";
+		// 生成密钥对
 		final KeyPair keyPair = KeyUtil.generateKeyPair(AlgorithmUtil.getAlgorithm(id));
+		// 生成签名器
 		final JWTSigner signer = JWTSignerUtil.createSigner(id, keyPair);
-
 		final JWT jwt = JWT.create()
 			.setPayload("sub", "1234567890")
 			.setPayload("name", "looly")
@@ -29,7 +30,7 @@ public class Issue3205Test {
 			.setSigner(signer);
 
 		final String token = jwt.sign();
-
+		// 验证签名
 		final boolean signed = Jwts.parser().verifyWith(keyPair.getPublic()).build().isSigned(token);
 
 		Assert.assertTrue(signed);
