@@ -10,12 +10,18 @@ import java.util.Date;
 
 public class JWTValidatorTest {
 
+	/**
+	 * 过期时间测试：签发时间晚于被检查的时间
+	 */
 	@Test(expected = ValidateException.class)
 	public void expiredAtTest(){
 		String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0Nzc1OTJ9.isvT0Pqx0yjnZk53mUFSeYFJLDs-Ls9IsNAm86gIdZo";
 		JWTValidator.of(token).validateDate(DateUtil.date());
 	}
 
+	/**
+	 * 签发时间测试：签发时间早于被检查的时间
+	 */
 	@Test(expected = ValidateException.class)
 	public void issueAtTest(){
 		final String token = JWT.create()
@@ -27,6 +33,9 @@ public class JWTValidatorTest {
 		JWTValidator.of(token).validateDate(DateUtil.yesterday());
 	}
 
+	/**
+	 * 签发时间测试
+	 */
 	@Test
 	public void issueAtPassTest(){
 		final String token = JWT.create()
@@ -53,6 +62,9 @@ public class JWTValidatorTest {
 		JWTValidator.of(jwt).validateDate(DateUtil.date());
 	}
 
+	/**
+	 * 验证算法
+	 */
 	@Test
 	public void validateAlgorithmTest(){
 		final String token = JWT.create()
@@ -77,7 +89,7 @@ public class JWTValidatorTest {
 		final JWT jwt = JWT.create()
 				.setPayload("id", 123)
 				.setPayload("username", "hutool")
-				.setExpiresAt(DateUtil.parse("2021-10-13 09:59:00"));
+				.setExpiresAt(DateUtil.parse("2024-08-01 21:59:00"));
 
 		JWTValidator.of(jwt).validateDate(DateUtil.date());
 	}
