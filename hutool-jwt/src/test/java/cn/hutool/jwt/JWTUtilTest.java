@@ -52,6 +52,14 @@ public class JWTUtilTest {
 		JWTUtil.parseToken(null);
 	}
 
+	/**
+	 * 必须定义签名器，测试token为空字符串的场景
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void parseEmptyTest(){
+        JWTUtil.parseToken("");
+    }
+
 	@Test
 	public void verifyTest(){
 		String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
