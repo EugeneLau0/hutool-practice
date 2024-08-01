@@ -1,8 +1,10 @@
 package cn.hutool.jwt;
 
+import cn.hutool.core.util.StrUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +21,7 @@ public class JWTUtilTest {
 
 			}
 		};
+		System.out.println(StrUtil.format("1234 的byte:{}", Arrays.toString(key)));
 
 		JWTUtil.createToken(map, key);
 	}
