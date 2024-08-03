@@ -11,6 +11,9 @@ import org.junit.Test;
  */
 public class DynaBeanTest {
 
+	/**
+	 * 动态bean测试
+	 */
 	@Test
 	public void beanTest() {
 		User user = new User();
@@ -31,6 +34,14 @@ public class DynaBeanTest {
 		//执行指定方法
 		Object invoke = bean2.invoke("testMethod");
 		Assert.assertEquals("test for 李华", invoke);
+	}
+
+	@Test(expected = BeanException.class)
+	public void beanSetTest() {
+		User user = new User();
+		DynaBean dynaBean = DynaBean.create(user);
+		// throws exception
+		dynaBean.set("sex", "male");
 	}
 
 

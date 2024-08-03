@@ -77,7 +77,7 @@ public class DynaBean extends CloneSupport<DynaBean> implements Serializable {
 	/**
 	 * 构造
 	 *
-	 * @param bean 原始Bean
+	 * @param bean 原始Bean，bean的对象地址不会发生改变
 	 */
 	public DynaBean(Object bean) {
 		Assert.notNull(bean);
