@@ -8,19 +8,25 @@ import cn.hutool.jwt.signers.JWTSignerUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.crypto.SecretKey;
+
 public class JWTSignerTest {
 
 	@Test
 	public void hs256Test(){
 		String id = "hs256";
-		final JWTSigner signer = JWTSignerUtil.createSigner(id, KeyUtil.generateKey(AlgorithmUtil.getAlgorithm(id)));
+		// 生成密钥
+		SecretKey secretKey = KeyUtil.generateKey(AlgorithmUtil.getAlgorithm(id));
+		// 生成签名器
+		final JWTSigner signer = JWTSignerUtil.createSigner(id, secretKey);
 		Assert.assertEquals(AlgorithmUtil.getAlgorithm(id), signer.getAlgorithm());
-
+		// 生成token
 		signAndVerify(signer);
 	}
 
 	@Test
 	public void hs256Test2(){
+		// 生成hs256密钥
 		final JWTSigner signer = JWTSignerUtil.hs256("123456".getBytes());
 
 		signAndVerify(signer);
@@ -29,7 +35,8 @@ public class JWTSignerTest {
 	@Test
 	public void hs384Test(){
 		String id = "hs384";
-		final JWTSigner signer = JWTSignerUtil.createSigner(id, KeyUtil.generateKey(AlgorithmUtil.getAlgorithm(id)));
+		SecretKey secretKey = KeyUtil.generateKey(AlgorithmUtil.getAlgorithm(id));
+		final JWTSigner signer = JWTSignerUtil.createSigner(id, secretKey);
 		Assert.assertEquals(AlgorithmUtil.getAlgorithm(id), signer.getAlgorithm());
 
 		signAndVerify(signer);
@@ -38,7 +45,8 @@ public class JWTSignerTest {
 	@Test
 	public void hs512Test(){
 		String id = "hs512";
-		final JWTSigner signer = JWTSignerUtil.createSigner(id, KeyUtil.generateKey(AlgorithmUtil.getAlgorithm(id)));
+		SecretKey secretKey = KeyUtil.generateKey(AlgorithmUtil.getAlgorithm(id));
+		final JWTSigner signer = JWTSignerUtil.createSigner(id, secretKey);
 		Assert.assertEquals(AlgorithmUtil.getAlgorithm(id), signer.getAlgorithm());
 
 		signAndVerify(signer);
@@ -207,7 +215,9 @@ public class JWTSignerTest {
 	}
 
 
-
+	/**
+	 * 签名并验证
+	 */
 	private static void signAndVerify(JWTSigner signer){
 		JWT jwt = JWT.create()
 				.setPayload("sub", "1234567890")

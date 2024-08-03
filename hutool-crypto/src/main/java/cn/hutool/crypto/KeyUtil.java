@@ -541,14 +541,18 @@ public class KeyUtil {
 	 * @since 4.4.3
 	 */
 	public static KeyPairGenerator getKeyPairGenerator(String algorithm) {
+		//
 		final Provider provider = GlobalBouncyCastleProvider.INSTANCE.getProvider();
 
 		KeyPairGenerator keyPairGen;
+		// 创建KeyPairGenerator实例，用于生成密钥对
 		try {
-			keyPairGen = (null == provider) //
-					? KeyPairGenerator.getInstance(getMainAlgorithm(algorithm)) //
-					: KeyPairGenerator.getInstance(getMainAlgorithm(algorithm), provider);//
+			// 如果提供了provider，则使用指定的provider；否则使用默认的provider
+			keyPairGen = (null == provider)
+				? KeyPairGenerator.getInstance(getMainAlgorithm(algorithm))
+				: KeyPairGenerator.getInstance(getMainAlgorithm(algorithm), provider);
 		} catch (NoSuchAlgorithmException e) {
+			// 如果发生异常，抛出CryptoException
 			throw new CryptoException(e);
 		}
 		return keyPairGen;

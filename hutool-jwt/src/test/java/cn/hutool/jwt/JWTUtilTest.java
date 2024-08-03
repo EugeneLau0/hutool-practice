@@ -1,8 +1,10 @@
 package cn.hutool.jwt;
 
+import cn.hutool.core.util.StrUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +21,7 @@ public class JWTUtilTest {
 
 			}
 		};
+		System.out.println(StrUtil.format("1234 的byte:{}", Arrays.toString(key)));
 
 		JWTUtil.createToken(map, key);
 	}
@@ -48,6 +51,14 @@ public class JWTUtilTest {
 		// https://gitee.com/dromara/hutool/issues/I5OCQB
 		JWTUtil.parseToken(null);
 	}
+
+	/**
+	 * 必须定义签名器，测试token为空字符串的场景
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void parseEmptyTest(){
+        JWTUtil.parseToken("");
+    }
 
 	@Test
 	public void verifyTest(){

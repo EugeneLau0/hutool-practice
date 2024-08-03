@@ -18,8 +18,11 @@ public class IssueI6IS5BTest {
 		final LocalDateTime iat = LocalDateTimeUtil.of(DateUtil.parse("2023-03-03"));
 		final JwtToken jwtToken = new JwtToken();
 		jwtToken.setIat(iat);
-		final String token = JWTUtil.createToken(JSONUtil.parseObj(jwtToken), "123".getBytes(StandardCharsets.UTF_8));
-		Assert.assertEquals("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Nzc3NzI4MDB9.SXU_mm1wT5lNoK-Dq5Y8f3BItv_44zuAlyeWLqajpXg", token);
+		// 序列化bean
+		JSONObject payload = JSONUtil.parseObj(jwtToken);
+		final String token = JWTUtil.createToken(payload, "123".getBytes(StandardCharsets.UTF_8));
+		Assert.assertEquals("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Nzc3NzI4MDB9." +
+			"SXU_mm1wT5lNoK-Dq5Y8f3BItv_44zuAlyeWLqajpXg", token);
 		final JSONObject payloads = JWTUtil.parseToken(token).getPayloads();
 		Assert.assertEquals("{\"iat\":1677772800}", payloads.toString());
 		final JwtToken o = payloads.toBean(JwtToken.class);
@@ -36,8 +39,11 @@ public class IssueI6IS5BTest {
 		final Date iat = DateUtil.parse("2023-03-03");
 		final JwtToken2 jwtToken = new JwtToken2();
 		jwtToken.setIat(iat);
-		final String token = JWTUtil.createToken(JSONUtil.parseObj(jwtToken), "123".getBytes(StandardCharsets.UTF_8));
-		Assert.assertEquals("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Nzc3NzI4MDB9.SXU_mm1wT5lNoK-Dq5Y8f3BItv_44zuAlyeWLqajpXg", token);
+		// 序列化bean
+		JSONObject payload = JSONUtil.parseObj(jwtToken);
+		final String token = JWTUtil.createToken(payload, "123".getBytes(StandardCharsets.UTF_8));
+		Assert.assertEquals("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Nzc3NzI4MDB9." +
+			"SXU_mm1wT5lNoK-Dq5Y8f3BItv_44zuAlyeWLqajpXg", token);
 		final JSONObject payloads = JWTUtil.parseToken(token).getPayloads();
 		Assert.assertEquals("{\"iat\":1677772800}", payloads.toString());
 		final JwtToken2 o = payloads.toBean(JwtToken2.class);
