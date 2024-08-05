@@ -111,6 +111,7 @@ public class BeanUtilTest {
 		// 错误的类型，此处忽略
 		map.put("age", "aaaaaa");
 
+		// 默认的转换忽略错误为false，在一些极端场景下才需要用到这种方式
 		final Person person = BeanUtil.toBeanIgnoreError(map, Person.class);
 		Assert.assertEquals("Joe", person.getName());
 		// 错误的类型，不copy这个字段，使用对象创建的默认值
