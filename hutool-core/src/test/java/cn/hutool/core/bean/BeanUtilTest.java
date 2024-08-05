@@ -90,7 +90,10 @@ public class BeanUtilTest {
 		person.setName("测试A11");
 		person.setSubName("sub名字");
 
+		// 返回的是一个新对象
 		final Map<?, ?> map = BeanUtil.toBean(person, Map.class);
+		System.out.println(StrUtil.format("old object:{}, new object:{}",
+			System.identityHashCode(person.getName()), System.identityHashCode(map.get("name"))));
 		Assert.assertEquals("测试A11", map.get("name"));
 		Assert.assertEquals(14, map.get("age"));
 		Assert.assertEquals("11213232", map.get("openid"));
