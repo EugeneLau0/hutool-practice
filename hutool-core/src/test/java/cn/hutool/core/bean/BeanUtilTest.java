@@ -37,7 +37,7 @@ public class BeanUtilTest {
 	@Test
 	public void isBeanTest() {
 
-		// HashMap不包含setXXX方法，不是bean
+		// HashMap不包含setXXX方法或者没有public方法，不是bean
 		final boolean isBean = BeanUtil.isBean(HashMap.class);
 		Assert.assertFalse(isBean);
 	}
