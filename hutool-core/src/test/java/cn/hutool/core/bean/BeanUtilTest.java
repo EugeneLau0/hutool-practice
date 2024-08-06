@@ -150,6 +150,7 @@ public class BeanUtilTest {
 	 */
 	@Test
 	public void mapToBeanTest2() {
+		// 初始化map
 		final HashMap<String, Object> map = MapUtil.newHashMap();
 		map.put("name", "Joe");
 		map.put("age", 12);
@@ -249,6 +250,8 @@ public class BeanUtilTest {
 		final Map<String, Object> map = MapUtil.newHashMap();
 		map.put("aliasSubName", "sub名字");
 		map.put("slow", true);
+		// key 不应该包含 is，直接用属性才对；
+		// 这种情况下转换出来的bean，不会包含属性is_booleana，属性booleana的值为默认值
 		map.put("is_booleana", "1");
 		map.put("is_booleanb", true);
 
