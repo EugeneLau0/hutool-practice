@@ -5,6 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.bean.copier.ValueProvider;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapBuilder;
@@ -334,7 +335,7 @@ public class BeanUtilTest {
 
 	@Test
 	@Ignore
-	public void multiThreadTest(){
+	public void multiThreadTest() {
 		final Student student = new Student();
 		student.setName("张三");
 		student.setAge(123);
@@ -347,20 +348,29 @@ public class BeanUtilTest {
 
 		final List<Student> studentList = ListUtil.of(student, student2);
 
-		for (int i=0;i<5000;i++){
-			new Thread(()->{
+		System.out.println(StrUtil.format("开始于：{}", DateUtil.now()));
+
+		// 启用5000个线程
+		for (int i = 0; i < 5000; i++) {
+			int finalI = i;
+			new Thread(() -> {
+				// 克隆 list
 				final List<Student> list = ObjectUtil.clone(studentList);
+				// 属性 拷贝，再collector为list
 				final List<Student> listReps = list.stream().map(s1 -> {
 					final Student s2 = new Student();
+					// 将s1对象中所有属性都拷贝到s2中
 					BeanUtil.copyProperties(s1, s2);
 					return s2;
 				}).collect(Collectors.toList());
 
-				System.out.println(listReps);
+				System.out.println(StrUtil.format("第{}个res: {}", finalI + 1, listReps));
 			}).start();
 		}
 
+		// TODO 这里似乎有BUG 等待线程终止
 		ThreadUtil.waitForDie();
+		System.out.println(StrUtil.format("结束于：{}", DateUtil.now()));
 	}
 
 	@Test
