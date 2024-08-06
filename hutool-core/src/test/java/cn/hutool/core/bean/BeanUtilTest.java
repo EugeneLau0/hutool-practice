@@ -297,6 +297,7 @@ public class BeanUtilTest {
 	@Test
 	@SuppressWarnings("ConstantConditions")
 	public void getNullPropertyTest() {
+		// bean支持为null，返回也为null
 		final Object property = BeanUtil.getProperty(null, "name");
 		Assert.assertNull(property);
 	}
