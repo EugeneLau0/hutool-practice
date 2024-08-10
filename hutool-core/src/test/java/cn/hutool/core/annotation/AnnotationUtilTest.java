@@ -40,9 +40,12 @@ public class AnnotationUtilTest {
 
 	@Test
 	public void getAnnotationValueTest() {
+		// 获取AnnotationForTest类型的注解的value属性值，该方法可能会返回null
 		final Object value = AnnotationUtil.getAnnotationValue(ClassWithAnnotation.class, AnnotationForTest.class);
 		Assert.assertTrue(value.equals("测试") || value.equals("repeat-annotation"));
 
+		Object value1 = AnnotationUtil.getAnnotationValue(ClassWithAnnotation.class, AnnotationForTest.class, "value");
+		Assert.assertTrue(value1.equals("测试") || value1.equals("repeat-annotation"));
 	}
 
 	@Test
@@ -83,6 +86,7 @@ public class AnnotationUtilTest {
 	public void scanMetaAnnotationTest() {
 		// RootAnnotation -> RootMetaAnnotation1 -> RootMetaAnnotation2 -> RootMetaAnnotation3
 		//                -> RootMetaAnnotation3
+		// 这里会递归去扫描RootAnnotation上的注解，然后递归去获取注解上的注解，直到获取到RootMetaAnnotation3为止
 		final List<Annotation> annotations = AnnotationUtil.scanMetaAnnotation(RootAnnotation.class);
 		Assert.assertEquals(4, annotations.size());
 		Assert.assertTrue(annotations.get(0).annotationType() == RootMetaAnnotation3.class ||
@@ -98,6 +102,7 @@ public class AnnotationUtilTest {
 	public void scanClassTest() {
 		// TargetClass -> TargetSuperClass ----------------------------------> SuperInterface
 		//             -> TargetSuperInterface -> SuperTargetSuperInterface -> SuperInterface
+		// 递归扫描类，并返回类上的注解
 		final List<Annotation> annotations = AnnotationUtil.scanClass(TargetClass.class);
 		Assert.assertEquals(5, annotations.size());
 		Assert.assertEquals("TargetClass", ((AnnotationForTest)annotations.get(0)).value());
@@ -111,8 +116,10 @@ public class AnnotationUtilTest {
 	public void scanMethodTest() {
 		// TargetClass -> TargetSuperClass
 		//             -> TargetSuperInterface
+		// 获取指定方法
 		final Method method = ReflectUtil.getMethod(TargetClass.class, "testMethod");
 		Assert.assertNotNull(method);
+		// 扫描指定方法上的注解
 		final List<Annotation> annotations = AnnotationUtil.scanMethod(method);
 		Assert.assertEquals(3, annotations.size());
 		Assert.assertEquals("TargetClass", ((AnnotationForTest)annotations.get(0)).value());
