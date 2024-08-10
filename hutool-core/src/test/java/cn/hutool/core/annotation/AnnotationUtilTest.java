@@ -19,6 +19,9 @@ public class AnnotationUtilTest {
 
 	@Test
 	public void getCombinationAnnotationsTest(){
+		/*
+		获取组合注解，底层通过反射获取注解的属性值，然后组合成新的注解返回；注意该用例不会递归去获取注解
+		* */
 		final Annotation[] annotations = AnnotationUtil.getAnnotations(ClassWithAnnotation.class, true);
 		Assert.assertNotNull(annotations);
 		Assert.assertEquals(2, annotations.length);
@@ -26,9 +29,12 @@ public class AnnotationUtilTest {
 
 	@Test
 	public void getCombinationAnnotationsWithClassTest(){
-		final AnnotationForTest[] annotations = AnnotationUtil.getCombinationAnnotations(ClassWithAnnotation.class, AnnotationForTest.class);
+		// 只获取AnnotationForTest类型的注解
+		final AnnotationForTest[] annotations = AnnotationUtil
+			.getCombinationAnnotations(ClassWithAnnotation.class, AnnotationForTest.class);
 		Assert.assertNotNull(annotations);
 		Assert.assertEquals(1, annotations.length);
+		Assert.assertTrue(annotations[0] instanceof AnnotationForTest);
 		Assert.assertTrue(annotations[0].value().equals("测试") || annotations[0].value().equals("repeat-annotation"));
 	}
 
