@@ -69,6 +69,7 @@ public class Issue2009Test {
 	public void test() {
 		B b = new B("a string text");
 		A a = new A();
+		// 属性拷贝，浅拷贝
 		BeanUtil.copyProperties(b, a);
 
 		Assert.assertEquals(b.getPapss(), a.getPapss());
