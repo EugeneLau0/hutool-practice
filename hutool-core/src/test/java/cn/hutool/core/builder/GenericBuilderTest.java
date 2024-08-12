@@ -20,6 +20,7 @@ public class GenericBuilderTest {
 
 	@Test
 	public void test() {
+		// 通用的对象builder
 		Box box = GenericBuilder
 				.of(Box::new)
 				.with(Box::setId, 1024L)
@@ -67,6 +68,7 @@ public class GenericBuilderTest {
 	@Test
 	public void buildMapTest(){
 		//Map创建
+		// 这是一种比较好的写法，可以更加优雅的去new一个map；就是不知道在性能上会有什么样的差异
 		HashMap<String, String> colorMap = GenericBuilder
 				.of(HashMap<String,String>::new)
 				.with(Map::put, "red", "#FF0000")
