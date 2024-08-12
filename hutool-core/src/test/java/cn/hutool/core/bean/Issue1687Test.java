@@ -14,6 +14,9 @@ import java.io.Serializable;
  */
 public class Issue1687Test {
 
+	/**
+	 * bean取别名的意义真的很大吗
+	 */
 	@Test
 	public void toBeanTest(){
 		final SysUserFb sysUserFb = new SysUserFb();
