@@ -9,6 +9,7 @@ public class CaesarTest {
 	public void caesarTest() {
 		String str = "1f2e9df6131b480b9fdddc633cf24996";
 
+		// 凯撒加密
 		String encode = Caesar.encode(str, 3);
 		Assert.assertEquals("1H2G9FH6131D480D9HFFFE633EH24996", encode);
 
