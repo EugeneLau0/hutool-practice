@@ -25,6 +25,7 @@ public class FilterIterTest {
 		}
 		Assert.assertEquals(2, count);
 
+		// 返回的list是不可变的
 		it = ListUtil.of("1", "2").iterator();
 		// filter 不为空
 		filterIter = new FilterIter<>(it, (key) -> key.equals("1"));
