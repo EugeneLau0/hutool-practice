@@ -23,6 +23,7 @@ public class MapProxyTest {
 
 		MapProxy mapProxy = new MapProxy(map);
 		Integer b = mapProxy.getInt("b");
+		Assert.assertEquals(mapProxy.getStr("b"), "2");
 		Assert.assertEquals(new Integer(2), b);
 
 		Set<Object> keys = mapProxy.keySet();
