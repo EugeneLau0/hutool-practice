@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import cn.hutool.core.map.MapProxy;
 
+/**
+ * map代理的目的是：为了可以直接获取指定类型的value
+ */
 public class MapProxyTest {
 
 	@Test
