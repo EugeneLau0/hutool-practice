@@ -29,8 +29,8 @@ public class MapProxyTest {
 		Set<Object> keys = mapProxy.keySet();
 		Assert.assertFalse(keys.isEmpty());
 
-		Set<Entry<Object,Object>> entrys = mapProxy.entrySet();
-		Assert.assertFalse(entrys.isEmpty());
+		Set<Entry<Object,Object>> entries = mapProxy.entrySet();
+		Assert.assertFalse(entries.isEmpty());
 	}
 
 	private interface Student {
