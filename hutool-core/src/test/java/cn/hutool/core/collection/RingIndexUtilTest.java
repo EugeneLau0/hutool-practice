@@ -1,6 +1,7 @@
 package cn.hutool.core.collection;
 
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.StrUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,8 +29,10 @@ public class RingIndexUtilTest {
 		final AtomicInteger atomicInteger = new AtomicInteger();
 		// 开启并发测试，每个线程获取到的元素都是唯一的
 		ThreadUtil.concurrencyTest(strList.size(), () -> {
+			// 对于同一个对象，每次获取到的index都是不一样的
 			final int index = RingIndexUtil.ringNextIntByObj(strList, atomicInteger);
 			final String s = strList.get(index);
+			System.out.println(StrUtil.format("output result: {}", s));
 			Assert.assertNotNull(s);
 		});
 	}
